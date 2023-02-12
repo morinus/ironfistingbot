@@ -4,5 +4,26 @@
     "dotenv": "^16.0.3",
     "mocha": "^10.2.0",
     "request-response": "^0.1.2"
-  }
+  },
+  "name": "ironfistingbot",
+  "version": "1.0.0",
+  "description": "IronFisting Discord Bot",
+  "main": "src/app.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://morinus@github.com/morinus/ironfistingbot.git"
+  },
+  "author": "Mori",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morinus/ironfistingbot/issues"
+  },
+  "homepage": "https://github.com/morinus/ironfistingbot#readme"
 }
