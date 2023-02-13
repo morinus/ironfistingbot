@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const nsfwTags = require('./nsfw-tags.json');
+const nekosConfig = require('../../configs/nekos-config.json');
 const axios = require('axios');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
 
         var data = await getNsfwImageData(tag);
         var hasData = data != undefined;
-        
+
         if(!hasData) return;
 
         await interaction.reply(data.image);
@@ -26,7 +26,7 @@ module.exports = {
 
 async function getNsfwImageData(tag) {
     try {
-        var response = await axios.get("http://api.nekos.fun:8080/api/" + tag.toLowerCase());
+        var response = await axios.get(nekosConfig.url + tag.toLowerCase());
 
         return response.data;
     }
@@ -38,7 +38,7 @@ async function getNsfwImageData(tag) {
 function validateTag(tag) {
     if(tag == undefined) return false;
 
-    var isValid = nsfwTags.tags.includes(tag.toLowerCase());
+    var isValid = nekosConfig.tags.includes(tag.toLowerCase());
 
     return isValid;
 }
