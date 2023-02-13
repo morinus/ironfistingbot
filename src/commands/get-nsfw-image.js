@@ -16,23 +16,19 @@ module.exports = {
         if(!isValidTag) return;
 
         var data = await getNsfwImageData(tag);
+        var hasData = data != undefined;
+        
+        if(!hasData) return;
 
-        if(data != undefined) {
-            await interaction.reply(data.image);
-        }
+        await interaction.reply(data.image);
     }
 }
 
 async function getNsfwImageData(tag) {
     try {
-        var data;
+        var response = await axios.get("http://api.nekos.fun:8080/api/" + tag.toLowerCase());
 
-        await axios.get("http://api.nekos.fun:8080/api/" + tag.toLowerCase())
-        .then((response) => {
-            data = response.data;
-        });
-
-        return data;
+        return response.data;
     }
     catch(error) {
         console.error(error);
