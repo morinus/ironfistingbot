@@ -46,8 +46,8 @@ module.exports = {
             opponentScore = `**${opponentScore}**`;
         }
 
-        playersCharacter = formatCharacterString(playersCharacter);
-        opponentCharacter = formatCharacterString(opponentCharacter);
+        playersCharacter = formatCharacterNameString(playersCharacter);
+        opponentCharacter = formatCharacterNameString(opponentCharacter);
 
         channel.send(`${playerName} (${playersCharacter}) ${playerScore} - ${opponentScore} ${opponentName} (${opponentCharacter})`);
         
@@ -55,8 +55,12 @@ module.exports = {
     }
 }
 
-function formatCharacterString(characterName) {
-    const formattedCharacterString = characterName.toLowerCase().charAt(0).toUpperCase() + characterName.slice(1);
+function formatCharacterNameString(characterName) {
+    let formattedName;
+    formattedName = characterName.toLowerCase();
+    formattedName = characterName.charAt(0).toUpperCase() + formattedName.slice(1);
 
-    return formattedCharacterString;
+    return formattedName;
 }
+
+module.exports.formatCharacterNameString = formatCharacterNameString;
