@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, Role } = require('discord.js');
 const nekosConfig = require('../../configs/nekos-config.json');
 const axios = require('axios');
 
@@ -8,7 +8,8 @@ module.exports = {
         .setDescription('Get NSFW image')
         .addStringOption(option =>
             option.setName('tag')
-            .setDescription('Input tag')),
+            .setDescription('Input tag'))
+        .setDefaultMemberPermissions('0'),
     async execute(interaction) {
         const tag = interaction.options.getString('tag');
         const isValidTag = validateTag(tag);
