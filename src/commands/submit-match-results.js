@@ -17,6 +17,10 @@ module.exports = {
             option.setName('score')
                 .setDescription('Score')
                 .setRequired(true))
+        .addIntegerOption(option =>
+            option.setName('opponent-score')
+                .setDescription('Score')
+                .setRequired(true))
         .addMentionableOption(option =>
             option.setName('opponent')
                 .setDescription('Opponent name')
@@ -24,27 +28,18 @@ module.exports = {
         .addStringOption(option =>
             option.setName('opponents-character')
                 .setDescription('Character Name')
-                .setRequired(true))
-        .addIntegerOption(option =>
-            option.setName('opponent-score')
-                .setDescription('Score')
-                .setRequired(true))
-        .addMentionableOption(option =>
-            option.setName('winner-name')
-                .setDescription('Winner name')
                 .setRequired(true)),
     async execute(interaction) {
 
-        const channel = interaction.guild.channels.cache.get(challengeConfig.reportChallengeChannelID);
-        const playerName = interaction.options.getMentionable('player');
+        var channel = interaction.guild.channels.cache.get(challengeConfig.reportChallengeChannelID);
+        var playerName = interaction.options.getMentionable('player');
+        var opponentName = interaction.options.getMentionable('opponent');
         var playersCharacter = interaction.options.getString('character');
-        var playerScore = interaction.options.getInteger('score');
-        const opponentName = interaction.options.getMentionable('opponent');
         var opponentCharacter = interaction.options.getString('opponents-character');
+        var playerScore = interaction.options.getInteger('score');
         var opponentScore = interaction.options.getInteger('opponent-score');
-        const winnerName = interaction.options.getMentionable('winner-name');
 
-        if(winnerName == playerName) {
+        if(playerScore > opponentScore) {
             playerScore = `**${playerScore}**`;
         } 
         else {
@@ -61,8 +56,7 @@ module.exports = {
 }
 
 function formatCharacterString(characterName) {
-    var formattedCharacterName = characterName.toLowerCase();
-    formattedCharacterString = formattedCharacterName.charAt(0).toUpperCase() + formattedCharacterName.slice(1)
+    const formattedCharacterString = characterName.toLowerCase().charAt(0).toUpperCase() + characterName.slice(1);
 
     return formattedCharacterString;
 }
