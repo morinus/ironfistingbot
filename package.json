@@ -4,7 +4,9 @@
     "chai": "^4.3.7",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "mock-fs": "^5.2.0",
+    "sinon": "^15.0.1"
   },
   "name": "ironfistingbot",
   "version": "1.0.0",
