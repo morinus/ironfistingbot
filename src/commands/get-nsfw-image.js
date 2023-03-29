@@ -14,6 +14,10 @@ module.exports = {
         const tag = interaction.options.getString('tag');
         const isValidTag = validateTag(tag);
 
+        if(tag = 'help') {
+            await interaction.reply(nekosConfig.tags);
+        }
+
         if(!isValidTag) return;
 
         var data = await getNsfwImageData(tag);
