@@ -12,11 +12,15 @@ module.exports = {
         .setDefaultMemberPermissions('0'),
     async execute(interaction) {
         const tag = interaction.options.getString('tag');
-        const isValidTag = validateTag(tag);
 
-        if(tag = 'help') {
-            await interaction.reply(nekosConfig.tags);
+        if(tag == 'help') {
+            var tagsList = getListOfTags();
+            await interaction.reply(tagsList);
+
+            return;
         }
+
+        const isValidTag = validateTag(tag);
 
         if(!isValidTag) return;
 
@@ -38,6 +42,15 @@ async function getNsfwImageData(tag) {
     catch(error) {
         console.error(error);
     }
+}
+
+function getListOfTags() {
+    let tagsString = "";
+    nekosConfig.tags.forEach(tag => {
+        tagsString += tag + ' ';
+    });
+
+    return tagsString;
 }
 
 function validateTag(tag) {
