@@ -3,7 +3,7 @@ const challengeConfig = require('../../configs/challenge-config.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('challenge')
+        .setName('challenge-king')
         .setDescription('Challenge The King of Iron Fisting'),
     async execute(interaction) {
 
