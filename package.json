@@ -4,7 +4,6 @@
     "chai": "^4.3.7",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "mocha": "^10.2.0",
     "mock-fs": "^5.2.0",
     "sinon": "^15.0.1"
   },
@@ -12,12 +11,6 @@
   "version": "1.0.0",
   "description": "IronFisting Discord Bot",
   "main": "src/app.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "mocha"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://morinus@github.com/morinus/ironfistingbot.git"
