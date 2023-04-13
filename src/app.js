@@ -23,6 +23,10 @@ for(const file of commandFiles) {
 
 client.once(Events.ClientReady, bot => {
     console.log(`Logged in as ${bot.user.tag}`);
+
+    setInterval(() => {
+        challengeService.scheduledChallengesReset();
+    }, 1000 * 60);
 });
 
 client.on(Events.InteractionCreate, async interaction => {

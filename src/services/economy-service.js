@@ -1,45 +1,34 @@
-const fs = require('fs');
-
-let usersDatabase = require('../users-database.json');
+const userService = require('../services/user-service.js');
 
 function getPointsByUserId(userId) {
     
-    if(usersDatabase[userId]) {
+    var data = validateUserPoints(userId);
 
-        return usersDatabase[userId].points;
-
-    } else {
-
-        usersDatabase[userId] = { points: 0 };
-
-        saveUsers();
-
-        console.log(`Created new user with ID:${userId} in the database.`);
-
-        return 0;
-    }
+    return data.points;
 }
 
 function addPointsToUserId(userId, points) {
-    if(usersDatabase[userId]) {
 
-        usersDatabase[userId].points += points;
-        saveUsers();
+    var data = validateUserPoints(userId);
 
-        return usersDatabase[userId].points;
-    } 
-    else {
-        
-        usersDatabase[userId] = { points: points}
-        saveUsers();
+    data.points += points;
 
-        return points;
-    }
+    userService.saveUserData(userId, data);
+
+    return data.points;
 }
 
-function saveUsers() {
+function validateUserPoints(userId) {
 
-    fs.writeFileSync('src/users-database.json', JSON.stringify(usersDatabase));
+    var data = userService.getUserData(userId);
+
+    if(data.points == null) {
+        data.points = 0;
+
+        userService.saveUserData(userId, data);
+    }
+
+    return data;
 }
 
 module.exports = { getPointsByUserId, addPointsToUserId }
