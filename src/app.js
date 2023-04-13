@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const challengeService = require('../src/services/challenge-service.js');
 
 client.commands = new Collection();
 
@@ -26,7 +27,7 @@ client.once(Events.ClientReady, bot => {
 
     setInterval(() => {
         challengeService.scheduledChallengesReset();
-    }, 1000 * 60);
+    }, 1000 * 60 * 60);
 });
 
 client.on(Events.InteractionCreate, async interaction => {

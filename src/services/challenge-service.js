@@ -55,7 +55,7 @@ function scheduledChallengesReset() {
 
     var today = new Date();
 
-    if(today.getDay() === 1) {
+    if(today.getDay() === 1 && today.getHours() === 0) {
 
         for (const userId in database) {
 
