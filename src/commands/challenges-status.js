@@ -12,10 +12,9 @@ module.exports = {
     async execute(interaction) {
 
         const userId = interaction.options.getMentionable('user');
-        const princeChallengesLeft = challengeService.getPrinceChallengesRemainingByUserId(userId);
-        const kingChallengesLeft = challengeService.getKingChallengesRemainingByUserId(userId);
-        const princeChallengesLeftMessage = (princeChallengesLeft > 0) ? "Prince Challenge\n" : "";
-        const kingChallengesLeftMessage = (kingChallengesLeft > 0) ? "King Challenge\n" : "";
+        const challengeData = challengeService.getChallengesRemainingByUserId(userId);
+        const princeChallengesLeftMessage = (challengeData.princeChallengesRemaining > 0) ? "Prince Challenge\n" : "";
+        const kingChallengesLeftMessage = (challengeData.kingChallengesRemaining > 0) ? "King Challenge\n" : "";
 
         await interaction.reply(`${userId} challenges remaining:\n${kingChallengesLeftMessage}${princeChallengesLeftMessage}`);
     }

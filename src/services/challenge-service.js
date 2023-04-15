@@ -1,63 +1,75 @@
+const fs = require('fs');
 const challengeConfig = require('../../configs/challenge-config.json');
-
 let database = require('../../databases/challenges-database.json');
 
-function getPrinceChallengesRemainingByUserId(userId) {
+function getChallengesRemainingByUserId(userId) {
 
     var data = validateRemainingChallenges(userId);
 
-    return data.princeChallengesRemaining;
-}
-
-function getKingChallengesRemainingByUserId(userId) {
-    
-    var data = validateRemainingChallenges(userId);
-
-    return data.kingChallengesRemaining;
+    return data;
 }
 
 function spendPrinceChallenge(userId) {
 
     var data = validateRemainingChallenges(userId);
 
+    if(data.princeChallengesRemaining == 0) {
+
+        return false;
+    }
+
     data.princeChallengesRemaining--;
+
+    saveData(userId, data);
+
+    return true;
 }
 
 function spendKingChallenge(userId) {
 
     var data = validateRemainingChallenges(userId);
 
+    if(data.kingChallengesRemaining == 0) {
+
+        return false;
+    }
+
     data.kingChallengesRemaining--;
 
-    userService.saveUserData(userId, data);
+    saveData(userId, data);
+
+    return true;
 }
 
 function validateRemainingChallenges(userId) {
 
-    var data = userService.getUserData(userId);
+    if(database[userId]) {
 
-    if(data.princeChallengesRemaining == null) {
-        data.princeChallengesRemaining = challengeConfig.remainingPrinceChallenges;
+        return database[userId];
     }
+    else {
 
-    if(data.kingChallengesRemaining == null) {
-        data.kingChallengesRemaining = challengeConfig.remainingKingChallenges;
+        var data = { "kingChallengesRemaining" : challengeConfig.remainingKingChallenges,
+                     "princeChallengesRemaining" : challengeConfig.remainingPrinceChallenges }
+
+        saveData(userId, data);
+
+        return data;
     }
+}
 
-    userService.saveUserData(userId, data);
+function saveData(userId, data) {
 
-    return data;
+    database[userId] = data;
+
+    fs.writeFileSync('databases/challenges-database.json', JSON.stringify(database));
 }
 
 function scheduledChallengesReset() {
 
-    return;
-
     var today = new Date();
 
-    console.log("Challenges reset!");
-
-    //if(today.getDay() === 1 && today.getHours() === 0) {
+    if(today.getDay() === 1 && today.getHours() === 0) {
 
         for (const userId in database) {
 
@@ -67,7 +79,7 @@ function scheduledChallengesReset() {
 
             userService.saveUserData(userId, data);
         }
-    //}
+    }
 }
 
-module.exports = { getPrinceChallengesRemainingByUserId, getKingChallengesRemainingByUserId, spendPrinceChallenge, spendKingChallenge, scheduledChallengesReset }
+module.exports = { getChallengesRemainingByUserId, spendPrinceChallenge, spendKingChallenge, scheduledChallengesReset }

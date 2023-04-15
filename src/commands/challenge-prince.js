@@ -8,20 +8,19 @@ module.exports = {
         .setDescription('Challenge The Prince of Iron Fisting'),
     async execute(interaction) {
 
-        const userId = interaction.member.user.id;
-        const channel = interaction.guild.channels.cache.get(challengeConfig.testReportingChallengeChannelID);
-        const challengesLeft = challengeService.getPrinceChallengesRemainingByUserId(userId);
+        const userNumber = interaction.member.user.id;
+        const userId = `<@${String(userNumber)}>`;
+        const channel = interaction.guild.channels.cache.get(challengeConfig.reportChallengeChannelID);
 
-        if(challengesLeft == 0) {
+        if(!challengeService.spendPrinceChallenge(userId)) {
+            
             await interaction.reply(`You have already used your Prince Challenge. Try again next week!`);
             
             return;
         }
 
-        challengeService.spendPrinceChallenge(userId);
-
-        channel.send(`<@&${challengeConfig.testingPrinceRoleID}> challenged by <@${userId}>.`);
+        channel.send(`<@&${challengeConfig.princeRoleID}> challenged by ${userId}.`);
         
-        await interaction.reply(`We have a new challenger, it's <@${userId}>!`);
+        await interaction.reply(`We have a new challenger, it's ${userId}!`);
     }
 }
