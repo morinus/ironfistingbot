@@ -1,4 +1,6 @@
-const userService = require('../services/user-service.js');
+const fs = require('fs');
+const economyConfig = require('../../configs/economy-config.json');
+let database = require('../../databases/economy-database.json');
 
 function getPointsByUserId(userId) {
     
@@ -13,22 +15,32 @@ function addPointsToUserId(userId, points) {
 
     data.points += points;
 
-    userService.saveUserData(userId, data);
+    saveData(userId, data);
 
     return data.points;
 }
 
 function validateUserPoints(userId) {
 
-    var data = userService.getUserData(userId);
+    if(database[userId]) {
 
-    if(data.points == null) {
-        data.points = 0;
-
-        userService.saveUserData(userId, data);
+        return database[userId];
     }
+    else {
 
-    return data;
+        var data = { "points" : economyConfig.startingPoints }
+
+        saveData(userId, data);
+
+        return data;
+    }
+}
+
+function saveData(userId, data) {
+
+    database[userId] = data;
+
+    fs.writeFileSync('databases/economy-database.json', JSON.stringify(database));
 }
 
 module.exports = { getPointsByUserId, addPointsToUserId }

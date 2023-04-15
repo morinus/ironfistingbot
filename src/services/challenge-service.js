@@ -1,6 +1,6 @@
-const userService = require('../services/user-service.js');
 const challengeConfig = require('../../configs/challenge-config.json');
-let database = require('../users-database.json');
+
+let database = require('../../databases/challenges-database.json');
 
 function getPrinceChallengesRemainingByUserId(userId) {
 
@@ -21,8 +21,6 @@ function spendPrinceChallenge(userId) {
     var data = validateRemainingChallenges(userId);
 
     data.princeChallengesRemaining--;
-
-    userService.saveUserData(userId, data);
 }
 
 function spendKingChallenge(userId) {
@@ -53,19 +51,23 @@ function validateRemainingChallenges(userId) {
 
 function scheduledChallengesReset() {
 
+    return;
+
     var today = new Date();
 
-    if(today.getDay() === 1 && today.getHours() === 0) {
+    console.log("Challenges reset!");
+
+    //if(today.getDay() === 1 && today.getHours() === 0) {
 
         for (const userId in database) {
 
             var data = database[userId];
-            data.princeChallengesRemaining = 1;
-            data.kingChallengesRemaining = 1;
+            data.princeChallengesRemaining = challengeConfig.remainingPrinceChallenges;
+            data.kingChallengesRemaining = challengeConfig.remainingKingChallenges;
 
             userService.saveUserData(userId, data);
         }
-    }
+    //}
 }
 
 module.exports = { getPrinceChallengesRemainingByUserId, getKingChallengesRemainingByUserId, spendPrinceChallenge, spendKingChallenge, scheduledChallengesReset }

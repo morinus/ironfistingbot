@@ -9,7 +9,7 @@ module.exports = {
     async execute(interaction) {
 
         const userId = interaction.member.user.id;
-        const channel = interaction.guild.channels.cache.get(challengeConfig.reportChallengeChannelID);
+        const channel = interaction.guild.channels.cache.get(challengeConfig.testReportingChallengeChannelID);
         const challengesLeft = challengeService.getPrinceChallengesRemainingByUserId(userId);
 
         if(challengesLeft == 0) {
@@ -20,7 +20,7 @@ module.exports = {
 
         challengeService.spendPrinceChallenge(userId);
 
-        channel.send(`<@&${challengeConfig.princeRoleID}> challenged by <@${userId}>.`);
+        channel.send(`<@&${challengeConfig.testingPrinceRoleID}> challenged by <@${userId}>.`);
         
         await interaction.reply(`We have a new challenger, it's <@${userId}>!`);
     }
