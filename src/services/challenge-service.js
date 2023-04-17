@@ -65,20 +65,27 @@ function saveData(userId, data) {
     fs.writeFileSync('databases/challenges-database.json', JSON.stringify(database));
 }
 
+function resetChallenges() {
+
+    for (const userId in database) {
+
+        var data = database[userId];
+        data.princeChallengesRemaining = challengeConfig.remainingPrinceChallenges;
+        data.kingChallengesRemaining = challengeConfig.remainingKingChallenges;
+        
+        saveData(userId, data);
+    }
+}
+
 function scheduledChallengesReset() {
 
     var today = new Date();
 
-    if(today.getDay() === 1 && today.getHours() === 0) {
+    if(today.getDay() === 1 && today.getHours() === 0 && today.getMinutes() === 0) {
 
-        for (const userId in database) {
+        resetChallenges();
 
-            var data = database[userId];
-            data.princeChallengesRemaining = challengeConfig.remainingPrinceChallenges;
-            data.kingChallengesRemaining = challengeConfig.remainingKingChallenges;
-
-            userService.saveUserData(userId, data);
-        }
+        console.log(today.toLocaleDateString() + " " + today.toLocaleTimeString() + " --- Weekly Challenges Reset!");
     }
 }
 
