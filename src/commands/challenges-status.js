@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const challengeService = require('../services/challenge-service.js');
+const challengeSystem = require('../systems/challenge-system.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
 
         const userId = interaction.options.getMentionable('user');
-        const challengeData = challengeService.getChallengesRemainingByUserId(userId);
+        const challengeData = challengeSystem.getChallengesRemainingByUserId(userId);
         const princeChallengesLeftMessage = (challengeData.princeChallengesRemaining > 0) ? "Prince Challenge\n" : "";
         const kingChallengesLeftMessage = (challengeData.kingChallengesRemaining > 0) ? "King Challenge\n" : "";
 

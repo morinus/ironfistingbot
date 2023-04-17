@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const economyService = require('../services/economy-service.js');
+const economySystem = require('../services/economy-system.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
 
         const userId = interaction.options.getMentionable('user');
-        const points = economyService.getPointsByUserId(userId);
+        const points = economySystem.getPointsByUserId(userId);
 
         await interaction.reply(`${userId} has **${points}** points!`);
     }

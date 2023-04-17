@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
-const challengeService = require('../src/services/challenge-service.js');
+const challengeSystem = require('./systems/challenge-system.js');
 
 client.commands = new Collection();
 
@@ -26,7 +26,7 @@ client.once(Events.ClientReady, bot => {
     console.log(`Logged in as ${bot.user.tag}`);
 
     setInterval(() => {
-        challengeService.scheduledChallengesReset();
+        challengeSystem.scheduledChallengesReset();
     }, 1000 * 60);
 });
 
