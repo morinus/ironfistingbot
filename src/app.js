@@ -27,7 +27,6 @@ client.once(Events.ClientReady, bot => {
 
     setInterval(() => {
         challengeSystem.scheduledChallengesReset();
-
     }, 1000 * 10);
 });
 

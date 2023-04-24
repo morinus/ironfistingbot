@@ -1,6 +1,6 @@
 const fs = require('fs');
-//const challengeConfig = require('../../configs/challenge-config.json');
-const challengeConfig = require('../../configs/test-challenge-config.json');
+const challengeConfig = require('../../configs/challenge-config.json');
+//const challengeConfig = require('../../configs/test-challenge-config.json');
 let database = require('../../databases/challenges-database.json');
 
 

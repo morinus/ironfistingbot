@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-//const challengeConfig = require('../../configs/challenge-config.json')
-const challengeConfig = require('../../configs/test-challenge-config.json')
+const challengeConfig = require('../../configs/challenge-config.json')
+//const challengeConfig = require('../../configs/test-challenge-config.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
