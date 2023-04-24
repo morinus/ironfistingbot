@@ -51,6 +51,19 @@ function challengeMokujin(userID) {
     return true;
 }
 
+function challengeDreamTeam(userID, partnerID) {
+
+    if(database.dreamTeamChallengers.includes(userID)) return false;
+    if(database.dreamTeamChallengers.includes(partnerID)) return false;
+
+    database.dreamTeamChallengers.push(userID);
+    database.dreamTeamChallengers.push(partnerID);
+
+    saveData();
+
+    return true;
+}
+
 function saveData() {
 
     fs.writeFileSync('databases/challenges-database.json', JSON.stringify(database));
@@ -61,20 +74,21 @@ function resetChallenges() {
     database.kingChallengers = [];
     database.princeChallengers = [];
     database.mokujinChallengers = [];
+    database.dreamTeamChallengers = [];
         
     saveData();
 }
 
 function scheduledChallengesReset() {
 
-    var today = new Date();
+    //var today = new Date();
 
-    if(today.getDay() === 1 && today.getHours() === 0 && today.getMinutes() === 0) {
+    //if(today.getDay() === 1 && today.getHours() === 0 && today.getMinutes() === 0) {
 
         resetChallenges();
 
-        console.log(today.toLocaleDateString() + " " + today.toLocaleTimeString() + " --- Weekly Challenges Reset!");
-    }
+        //console.log(today.toLocaleDateString() + " " + today.toLocaleTimeString() + " --- Weekly Challenges Reset!");
+    //}
 }
 
-module.exports = { scheduledChallengesReset,  challengeRole}
+module.exports = { scheduledChallengesReset,  challengeRole, challengeDreamTeam}

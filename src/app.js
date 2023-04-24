@@ -27,7 +27,8 @@ client.once(Events.ClientReady, bot => {
 
     setInterval(() => {
         challengeSystem.scheduledChallengesReset();
-    }, 1000 * 60);
+
+    }, 1000 * 10);
 });
 
 client.on(Events.InteractionCreate, async interaction => {

@@ -4,7 +4,7 @@ const challengeConfig = require('../../configs/test-challenge-config.json')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('report-results')
+        .setName('report-challenge-results')
         .setDescription('Report challenge results')
         .addMentionableOption(option =>
             option.setName('player')
@@ -64,7 +64,7 @@ module.exports = {
         else {
             opponentScore = `**${opponentScore}**`;
 
-            const member = interaction.guild.members.fetch(opponent);
+            const member = await interaction.guild.members.fetch(opponent);
             member.roles.add(challengeRole);
         }
 
