@@ -1,80 +1,68 @@
 const fs = require('fs');
-const challengeConfig = require('../../configs/challenge-config.json');
+//const challengeConfig = require('../../configs/challenge-config.json');
+const challengeConfig = require('../../configs/test-challenge-config.json');
 let database = require('../../databases/challenges-database.json');
 
-function getChallengesRemainingByUserId(userId) {
 
-    var data = validateRemainingChallenges(userId);
+function challengeRole(userID, roleID) {
 
-    return data;
+    switch(roleID) {
+        case challengeConfig.kingRoleID:
+            return challengeKing(userID);
+        case challengeConfig.princeRoleID:
+            return challengePrince(userID);
+        case challengeConfig.mokujinRoleID:
+            return challengeMokujin(userID);
+        default:
+            return false;
+    }
 }
 
-function spendPrinceChallenge(userId) {
+function challengeKing(userID) {
 
-    var data = validateRemainingChallenges(userId);
-
-    if(data.princeChallengesRemaining == 0) {
-
-        return false;
-    }
-
-    data.princeChallengesRemaining--;
-
-    saveData(userId, data);
+    if(database.kingChallengers.includes(userID)) return false;
+    
+    database.kingChallengers.push(userID);
+    
+    saveData();
 
     return true;
 }
 
-function spendKingChallenge(userId) {
+function challengePrince(userID) {
 
-    var data = validateRemainingChallenges(userId);
-
-    if(data.kingChallengesRemaining == 0) {
-
-        return false;
-    }
-
-    data.kingChallengesRemaining--;
-
-    saveData(userId, data);
+    if(database.princeChallengers.includes(userID)) return false;
+    
+    database.princeChallengers.push(userID);
+    
+    saveData();
 
     return true;
 }
 
-function validateRemainingChallenges(userId) {
+function challengeMokujin(userID) {
 
-    if(database[userId]) {
+    if(database.mokujinChallengers.includes(userID)) return false;
+    
+    database.mokujinChallengers.push(userID);
+    
+    saveData();
 
-        return database[userId];
-    }
-    else {
-
-        var data = { "kingChallengesRemaining" : challengeConfig.remainingKingChallenges,
-                     "princeChallengesRemaining" : challengeConfig.remainingPrinceChallenges }
-
-        saveData(userId, data);
-
-        return data;
-    }
+    return true;
 }
 
-function saveData(userId, data) {
-
-    database[userId] = data;
+function saveData() {
 
     fs.writeFileSync('databases/challenges-database.json', JSON.stringify(database));
 }
 
 function resetChallenges() {
 
-    for (const userId in database) {
-
-        var data = database[userId];
-        data.princeChallengesRemaining = challengeConfig.remainingPrinceChallenges;
-        data.kingChallengesRemaining = challengeConfig.remainingKingChallenges;
+    database.kingChallengers = [];
+    database.princeChallengers = [];
+    database.mokujinChallengers = [];
         
-        saveData(userId, data);
-    }
+    saveData();
 }
 
 function scheduledChallengesReset() {
@@ -89,4 +77,4 @@ function scheduledChallengesReset() {
     }
 }
 
-module.exports = { getChallengesRemainingByUserId, spendPrinceChallenge, spendKingChallenge, scheduledChallengesReset }
+module.exports = { scheduledChallengesReset,  challengeRole}

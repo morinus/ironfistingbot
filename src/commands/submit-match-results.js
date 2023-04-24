@@ -31,7 +31,7 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
 
-        var channel = interaction.guild.channels.cache.get(challengeConfig.reportChallengeChannelID);
+        var channel = interaction.guild.channels.cache.get(challengeConfig.tekkenChallengesChannelID);
         var playerName = interaction.options.getMentionable('player');
         var opponentName = interaction.options.getMentionable('opponent');
         var playersCharacter = interaction.options.getString('character');
