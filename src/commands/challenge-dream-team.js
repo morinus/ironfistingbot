@@ -28,7 +28,7 @@ module.exports = {
 
             channel.send(`<@&${challengeConfig.dreamTeamRoleID}> challenged by ${userID} & ${partnerID}.`);
 
-            await interaction.reply(`We have a new challengers, it's ${userID} & ${partnerID}!`);
+            await interaction.reply(`We have new challengers, they're ${userID} & ${partnerID}!`);
         }
     }
 }
