@@ -1,7 +1,8 @@
 const fs = require('fs');
-const challengeConfig = require('../../configs/challenge-config.json');
-//const challengeConfig = require('../../configs/test-challenge-config.json');
+//const challengeConfig = require('../../configs/challenge-config.json');
+const challengeConfig = require('../../configs/test-challenge-config.json');
 let database = require('../../databases/challenges-database.json');
+const { isFunction } = require('util');
 
 
 function challengeRole(userID, roleID) {
@@ -64,6 +65,74 @@ function challengeDreamTeam(userID, partnerID) {
     return true;
 }
 
+function getPendingChallengers(roleID) {
+
+    switch(roleID) {
+
+        case challengeConfig.dreamTeamRoleID:
+            return database.dreamTeamChallengers;
+        case challengeConfig.kingRoleID:
+            return database.kingChallengers;
+        case challengeConfig.princeRoleID:
+            return database.princeChallengers;
+        case challengeConfig.mokujinRoleID:
+            return database.mokujinChallengers;
+        default:
+            return null;
+    }
+}
+
+function withdrawFromChallenge(userID, roleID) {
+
+    switch(roleID) {
+
+        case challengeConfig.dreamTeamRoleID:
+            database.dreamTeamChallengers = removeUserFromTeamArray(userID, database.dreamTeamChallengers);
+            break;
+        case challengeConfig.kingRoleID:
+            database.kingChallengers = removeUserFromArray(userID, database.kingChallengers);
+            break;
+        case challengeConfig.princeRoleID:
+            database.princeChallengers = removeUserFromArray(userID, database.princeChallengers);
+            break;
+        case challengeConfig.mokujinRoleID:
+            database.mokujinRoleID = removeUserFromArray(userID, database.mokujinChallengers);
+            break;
+        default:
+            break;
+    }
+
+    saveData();
+}
+
+function removeUserFromArray(userID, array) {
+
+    if(array.length > 1) {
+        var index = array.indexOf(userID);
+        array.splice(index, 1);    
+    } else {
+        array.pop();
+    }
+
+    return array;
+}
+
+function removeUserFromTeamArray(userID, array) {
+
+    var index = array.indexOf(userID);
+    array.splice(index, 1);
+
+    if(index % 2 == 0) {
+
+        array.splice(index, 1);
+    } else {
+
+        array.splice(index - 1, 1);
+    }
+
+    return array;
+}
+
 function saveData() {
 
     fs.writeFileSync('databases/challenges-database.json', JSON.stringify(database));
@@ -91,4 +160,4 @@ function scheduledChallengesReset() {
     //}
 }
 
-module.exports = { scheduledChallengesReset,  challengeRole, challengeDreamTeam}
+module.exports = { scheduledChallengesReset,  challengeRole, challengeDreamTeam, getPendingChallengers, withdrawFromChallenge}

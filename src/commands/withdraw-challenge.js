@@ -5,41 +5,35 @@ const challengeSystem = require('../systems/challenge-system.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('challenge')
+        .setName('withdraw-challenge')
         .addStringOption(new SlashCommandStringOption()
             .setName('role')
-            .setDescription('Challenge Role')
+            .setDescription('Challenge role')
             .setRequired(true)
             .addChoices(
                 { name: 'King', value: challengeConfig.kingRoleID },
                 { name: 'Prince', value: challengeConfig.princeRoleID },
                 { name: 'Mokujin', value: challengeConfig.mokujinRoleID },
+                { name: 'Dream Team', value: challengeConfig.dreamTeamRoleID },
             )
         )
-        .setDescription('Challenge the current holder of the title'),
+        .setDescription('Withdraw from the challenge'),
     async execute(interaction) {
 
         const userNumber = interaction.member.user.id;
         const userID = `<@${String(userNumber)}>`;
-        const channel = interaction.guild.channels.cache.get(challengeConfig.tekkenChallengesChannelID);
         const role = interaction.options.getString('role');
 
-        const validRoles = [challengeConfig.kingRoleID, challengeConfig.princeRoleID, challengeConfig.mokujinRoleID];
+        challengeSystem.withdrawFromChallenge(userID, role);
+
+        const validRoles = [challengeConfig.kingRoleID, challengeConfig.princeRoleID, challengeConfig.mokujinRoleID, challengeConfig.dreamTeamRoleID];
         if(!validRoles.includes(role)) {
 
             await interaction.reply(`Oops, looks like you typed invalid role. Please try again!`);
         }
-
-        var canChallenge = challengeSystem.challengeRole(userID, role);
-        if(!canChallenge) {
-
-            await interaction.reply(`You can only challenge each role once per week. Try again next week!`);
-        } 
         else {
 
-            channel.send(`<@&${role}> challenged by ${userID}.`);
-
-            await interaction.reply(`We have a new challenger, it's ${userID}!`);
+            await interaction.reply(`You've withdrawn from the challenge!`);
         }
     }
 }
