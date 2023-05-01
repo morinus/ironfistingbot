@@ -106,8 +106,11 @@ function withdrawFromChallenge(userID, roleID) {
 
 function removeUserFromArray(userID, array) {
 
+    var index = array.indexOf(userID);
+
+    if(index == -1) return array;
+
     if(array.length > 1) {
-        var index = array.indexOf(userID);
         array.splice(index, 1);    
     } else {
         array.pop();
@@ -119,6 +122,9 @@ function removeUserFromArray(userID, array) {
 function removeUserFromTeamArray(userID, array) {
 
     var index = array.indexOf(userID);
+
+    if(index == -1) return array;
+
     array.splice(index, 1);
 
     if(index % 2 == 0) {
