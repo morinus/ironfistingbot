@@ -59,7 +59,8 @@ module.exports = {
         if(playerScore > opponentScore) {
             playerScore = `**${playerScore}**`;
 
-            interaction.member.roles.add(challengeRole);
+            const member = await interaction.guild.members.fetch(player);
+            member.roles.add(challengeRole);
         } 
         else {
             opponentScore = `**${opponentScore}**`;
