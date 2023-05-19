@@ -1,0 +1,10 @@
+{
+    "add-friend-code" : "Adds your Steam friend code to our database.",
+    "get-friend-code" : "Gets a Steam friend code from our database.",
+    "challenge" : "Challenges the current title holder for a weekly challenge match.",
+    "challenge-dream-team" : "Challenge current Dream Team holders.",
+    "report-challenge-results" : "Reports challenge results so the new roles can be assigned.",
+    "report-team-challenge-results" : "Reports Dream Team challenge results.",
+    "pending-challenges" : "Lists the current challenges for a given title.",
+    "withdraw-challenge" : "Withdraws the challenge that you issued for a specific title."
+}
