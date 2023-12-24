@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require('discord.js');
-const challengeConfig = require('../../configs/challenge-config.json');
-//const challengeConfig = require('../../configs/test-challenge-config.json');
+const challengeConfig = require('../../../configs/challenge-config.json');
+const playerRepository = require('../../DLL/repositories/player-repository.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('report-challenge-results')
-        .setDescription('Report challenge results')
+        .setName('report-tournament-results')
+        .setDescription('Report tournament results')
         .addMentionableOption(option =>
             option.setName('player')
                 .setDescription('Player name')
@@ -29,18 +29,10 @@ module.exports = {
         .addStringOption(option =>
             option.setName('opponents-character')
                 .setDescription('Character Name')
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('challenge-type')
-                .setDescription('Challenge Type')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'King', value: challengeConfig.kingRoleID },
-                    { name: 'Prince', value: challengeConfig.princeRoleID },
-                    { name: 'Mokujin', value: challengeConfig.mokujinRoleID },
-                )),
+                .setRequired(true)),
     async execute(interaction) {
 
+        // Get data
         const channel = interaction.guild.channels.cache.get(challengeConfig.tekkenChallengesChannelID);
         const player = interaction.options.getMentionable('player');
         const opponent = interaction.options.getMentionable('opponent');
@@ -48,27 +40,35 @@ module.exports = {
         var opponentCharacter = interaction.options.getString('opponents-character');
         var playerScore = interaction.options.getInteger('score');
         var opponentScore = interaction.options.getInteger('opponent-score');
-        const challengeRole = interaction.options.getString('challenge-type');
 
-        const role = interaction.guild.roles.cache.find(role => role.id == challengeRole);
-        const membersWithRole = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id));
-        membersWithRole.forEach(member => {
-            member.roles.remove(challengeRole);
-        });
+        var playerData = await playerRepository.getPlayer(player.user.id);
+        var opponentData = await playerRepository.getPlayer(opponent.user.id);
 
-        if(playerScore > opponentScore) {
-            playerScore = `**${playerScore}**`;
+        // Validate players are in the database
+        const validatePlayersExist = playerData != null &&  opponentData != null;
+        if(!validatePlayersExist) {
 
-            const member = await interaction.guild.members.fetch(player);
-            member.roles.add(challengeRole);
-        } 
-        else {
-            opponentScore = `**${opponentScore}**`;
-
-            const member = await interaction.guild.members.fetch(opponent);
-            member.roles.add(challengeRole);
+            return;
         }
 
+        // Add scores
+        if(playerScore > opponentScore) {
+
+            playerScore = `**${playerScore}**`;
+            playerData.score += 6;
+            opponentData.score += opponentScore;
+
+        } else {
+
+            opponentScore = `**${opponentScore}**`;
+            playerData.score += playerScore;
+            opponentData.score += 6;
+        }
+
+        await playerRepository.updatePlayer(playerData);
+        await playerRepository.updatePlayer(opponentData);
+
+        // Send message to channel
         playersCharacter = formatCharacterNameString(playersCharacter);
         opponentCharacter = formatCharacterNameString(opponentCharacter);
 

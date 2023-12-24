@@ -1,6 +1,5 @@
 const fs = require('fs');
-
-let database = require('../../databases/friend-codes-database.json');
+let database = require('../../../databases/friend-codes-database.json');
 
 
 function saveFriendCodeToDatabase(userID, friendCode) {

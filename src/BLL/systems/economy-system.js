@@ -1,6 +1,6 @@
 const fs = require('fs');
-const economyConfig = require('../../configs/economy-config.json');
-let database = require('../../databases/economy-database.json');
+const economyConfig = require('../../../configs/economy-config.json');
+let database = require('../../../databases/economy-database.json');
 
 function getPointsByUserId(userId) {
     

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const friendCodesSystem = require('./../systems/friend-codes-system.js');
+const friendCodesSystem = require('../../BLL/systems/friend-codes-system.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

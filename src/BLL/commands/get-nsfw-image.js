@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, Role } = require('discord.js');
-const nekosConfig = require('../../configs/nekos-config.json');
+const nekosConfig = require('../../../configs/nekos-config.json');
 const axios = require('axios');
 
 module.exports = {
