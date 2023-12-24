@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const tournamentSystem = require('../systems/tournament-system.js');
+const challengeConfig = require('../../../configs/challenge-config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
