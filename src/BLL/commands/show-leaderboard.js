@@ -19,10 +19,6 @@ module.exports = {
     
             count++;
 
-            if(count == 9) {
-                leaderboardMessage += "\n------------------------------";
-            }
-
             leaderboardMessage += `\n${count}. ${player.username} - **${player.score}**`;
         });
 
