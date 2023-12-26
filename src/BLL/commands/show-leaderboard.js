@@ -8,10 +8,7 @@ module.exports = {
         .setDescription('Show current tournament leaderboard.'),
     async execute(interaction) {
 
-        const channel = interaction.guild.channels.cache.get(challengeConfig.tekkenChallengesChannelID);
-
         let leaderboardMessage = "";
-        
         leaderboardMessage += "**LEADERBOARD:**\n"
 
         const players = await playerRepository.getAllPlayers();
@@ -26,6 +23,6 @@ module.exports = {
         });
 
 
-        channel.send(matchesMessage);
+        await interaction.reply(leaderboardMessage);
     }
 }
