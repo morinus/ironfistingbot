@@ -13,7 +13,7 @@ module.exports = {
 
         let matchesMessage = "";
 
-        matchesMessage += "Welcome to this week's matchups: \n"
+        matchesMessage += "@here Welcome to this week's matchups: \n"
 
         matches.forEach(match => {
             
