@@ -24,34 +24,12 @@ for(const file of commandFiles) {
 }
 
 client.once(Events.ClientReady, bot => {
+
     console.log(`Logged in as ${bot.user.tag}`);
-
-    // Scheduled Features
-    //
-    // setInterval(() => {
-    //     challengeSystem.scheduledChallengesReset();
-    // }, 1000 * 10);
-
-    // playerRepository.addPlayer("182108428443975680", "Draco");
-    // playerRepository.addPlayer("183249262312685569", "MasterVodka");
-    // playerRepository.addPlayer("192640977289216000", "Mori");
-    // playerRepository.addPlayer("197406374261555201", "YaBoii");
-    // playerRepository.addPlayer("249570386277040128", "Uppity");
-    // playerRepository.addPlayer("255399498975543296", "Kelo Ex Machina");
-    // playerRepository.addPlayer("261104046943764481", "kimiboi");
-    // playerRepository.addPlayer("282291958024765451", "TerraTron");
-    // playerRepository.addPlayer("302475198643568640", "Sweatington");
-    // playerRepository.addPlayer("306166324403503105", "Sickatron");
-    // playerRepository.addPlayer("333150133132984322", "Mad Paladin");
-    // playerRepository.addPlayer("338941529643286529", "Six");
-    // playerRepository.addPlayer("371277908997832705", "SinfulDelight_");
-    // playerRepository.addPlayer("491309479497826304", "Pencilette");
-    // playerRepository.addPlayer("589791068749299725", "Gollder");
-
-    // tournamentSystem.createMatches();
 });
 
 client.on(Events.InteractionCreate, async interaction => {
+
     if(!interaction.isChatInputCommand()) return;
 
     const command = interaction.client.commands.get(interaction.commandName);
@@ -62,8 +40,10 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 
     try {
+
         await command.execute(interaction);
     } catch (error) {
+        
         console.error(error);
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true});
     }
