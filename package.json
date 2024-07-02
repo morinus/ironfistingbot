@@ -24,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/morinus/ironfistingbot/issues"
   },
-  "homepage": "https://github.com/morinus/ironfistingbot#readme"
+  "homepage": "https://github.com/morinus/ironfistingbot#readme",
+  "scripts": {
+    "start": "cross-env ENV_FILE=./.env.test node src/app.js",
+    "start-prod": "node src/app.js"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3"
+  }
 }

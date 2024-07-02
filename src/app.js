@@ -1,7 +1,16 @@
-require("dotenv").config( {path: './.env' });
-
+//const dotenv = require("dotenv").config({ path: './.env' });
+const dotenv = require("dotenv");
 const fs = require('node:fs');
 const path = require('node:path');
+const envFile = process.env.ENV_FILE || './.env';
+
+if (fs.existsSync(envFile)) {
+    dotenv.config({ path: envFile });
+} else {
+    console.error(`The specified .env file (${envFile}) does not exist.`);
+    process.exit(1);
+}
+
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -47,4 +56,5 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-client.login();
+const token = process.env.DISCORD_TOKEN;
+client.login(token);
