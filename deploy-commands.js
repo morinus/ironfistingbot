@@ -1,6 +1,15 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('node:fs');
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+const envFile = process.env.ENV_FILE || './.env';
+
+if (fs.existsSync(envFile)) {
+    dotenv.config({ path: envFile });
+} else {
+    console.error(`The specified .env file (${envFile}) does not exist.`);
+    process.exit(1);
+}
 
 const commands = [];
 const commandFiles = fs.readdirSync('./src/BLL/commands').filter(file => file.endsWith('.js'));
@@ -22,6 +31,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
         );
 
         console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+        process.exit(1);
     } catch(error) {
         console.error(error);
     }

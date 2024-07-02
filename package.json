@@ -27,7 +27,9 @@
   "homepage": "https://github.com/morinus/ironfistingbot#readme",
   "scripts": {
     "start": "cross-env ENV_FILE=./.env.test node src/app.js",
-    "start-prod": "node src/app.js"
+    "start-prod": "node src/app.js",
+    "deploy": "cross-env ENV_FILE=./.env.test node deploy-commands.js",
+    "deploy-prod": "node deploy-commands.js"
   },
   "devDependencies": {
     "cross-env": "7.0.3"
